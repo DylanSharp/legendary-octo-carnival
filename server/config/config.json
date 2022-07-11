@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": null,
-    "database": "database_development",
+    "password": ".39Wu9AhsUu9hK2wiqB-2X6b",
+    "database": "ghost_discussions",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
@@ -16,7 +16,7 @@
   "production": {
     "username": "root",
     "password": null,
-    "database": "database_production",
+    "database": "ghost_discussions",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }
