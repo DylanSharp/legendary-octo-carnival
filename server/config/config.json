@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "root",
-    "password": ".39Wu9AhsUu9hK2wiqB-2X6b",
-    "database": "ghost_discussions",
-    "host": "127.0.0.1",
+    "username": "admin",
+    "password": "GgelbHxxSFzylEde1SoR",
+    "database": "ghost_comments",
+    "host": "database-1.cbazrdku4why.us-east-1.rds.amazonaws.com",
     "dialect": "mysql"
   },
   "test": {
@@ -16,7 +16,7 @@
   "production": {
     "username": "root",
     "password": null,
-    "database": "ghost_discussions",
+    "database": "database_production",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }
