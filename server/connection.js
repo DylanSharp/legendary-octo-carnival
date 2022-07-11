@@ -1,11 +1,11 @@
 const Sequelize = require('sequelize')
 
 const sequelize = new Sequelize(
-    'ghost_discussions ',
+    'ghost_comments',
     'admin',
-    '.39Wu9AhsUu9hK2wiqB-2X6b',
+    'GgelbHxxSFzylEde1SoR',
     {
-        host: 'localhost',
+        host: 'database-1.cbazrdku4why.us-east-1.rds.amazonaws.com',
         dialect: 'mysql'
     });
 
