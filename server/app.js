@@ -38,14 +38,18 @@ app.post("/upvote/:comment_id", async (req, res) => {
 app.post("/comment", async (req, res) => {
     // Get a random user to assign the comment to.
     const allUsers = await User.findAll();
-    const randomUserIndex = Math.floor(Math.random() * allUsers.length);
-    const randomUser = allUsers[randomUserIndex];
+    if (!allUsers) {
+        res.end('No users. Please create at least one user before adding a comment.')
+    } else {
+        const randomUserIndex = Math.floor(Math.random() * allUsers.length);
+        const randomUser = allUsers[randomUserIndex];
 
-    await Comment.create({
-        user_id: randomUser.id,
-        content: req.body['content'],
-    })
-    res.end(randomUserIndex);
+        await Comment.create({
+            user_id: randomUser.id,
+            content: req.body['content'],
+        })
+        res.end(randomUserIndex);
+    }
 });
 
 app.listen(3000, () => {
