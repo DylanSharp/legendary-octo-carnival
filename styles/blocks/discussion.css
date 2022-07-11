@@ -95,7 +95,12 @@
 .comment__action-button {
     background-color: transparent;
     border: none;
+    border-radius: 5px;
     color: #4b587c;
-    font-weight: 700;
+    padding: 5px 8px;
+}
+
+.comment__action-button:hover {
+    background-color: rgba(84, 94, 126, 0.16);
 }
 
