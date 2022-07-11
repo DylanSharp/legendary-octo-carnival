@@ -1,12 +1,12 @@
 'use strict';
-const {DataTypes} = require("sequelize");
+const {DataTypes, Sequelize} = require("sequelize");
 
 module.exports = {
     async up(queryInterface, Sequelize) {
         await queryInterface.createTable('users', {
                 id: {
                     type: DataTypes.UUID,
-                    defaultValue: DataTypes.UUID,
+                    defaultValue: DataTypes.UUIDV4,
                     allowNull: false,
                     primaryKey: true
                 },
@@ -14,14 +14,24 @@ module.exports = {
                     type: DataTypes.STRING(440),
                     allowNull: false
                 },
-                createdAt: Sequelize.DATE,
-                updatedAt: Sequelize.DATE
+                createdAt: {
+                    type: "TIMESTAMP",
+                    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+                    allowNull: false,
+                },
+                updatedAt: {
+                    type: "TIMESTAMP",
+                    defaultValue: Sequelize.literal(
+                        "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+                    ),
+                    allowNull: false,
+                }
             }
         );
         await queryInterface.createTable('comments', {
                 id: {
                     type: DataTypes.UUID,
-                    defaultValue: DataTypes.UUID,
+                    defaultValue: DataTypes.UUIDV4,
                     allowNull: false,
                     primaryKey: true
                 },
@@ -50,14 +60,24 @@ module.exports = {
                         key: 'id',
                     }
                 },
-                createdAt: Sequelize.DATE,
-                updatedAt: Sequelize.DATE
+                createdAt: {
+                    type: "TIMESTAMP",
+                    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+                    allowNull: false,
+                },
+                updatedAt: {
+                    type: "TIMESTAMP",
+                    defaultValue: Sequelize.literal(
+                        "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+                    ),
+                    allowNull: false,
+                }
             }
         );
         await queryInterface.createTable('upvotes', {
                 id: {
                     type: DataTypes.UUID,
-                    defaultValue: DataTypes.UUID,
+                    defaultValue: DataTypes.UUIDV4,
                     allowNull: false,
                     primaryKey: true
                 },
@@ -69,8 +89,18 @@ module.exports = {
                         key: 'id'
                     }
                 },
-                createdAt: Sequelize.DATE,
-                updatedAt: Sequelize.DATE
+                createdAt: {
+                    type: "TIMESTAMP",
+                    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+                    allowNull: false,
+                },
+                updatedAt: {
+                    type: "TIMESTAMP",
+                    defaultValue: Sequelize.literal(
+                        "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+                    ),
+                    allowNull: false,
+                }
             }
         );
 
