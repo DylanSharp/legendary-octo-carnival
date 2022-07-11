@@ -22,13 +22,6 @@ module.exports = sequelize.define("upvotes",
             defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
             allowNull: false,
         },
-        updatedAt: {
-            type: "TIMESTAMP",
-            defaultValue: Sequelize.literal(
-                "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
-            ),
-            allowNull: false,
-        },
     },
     {
         timestamps: false,

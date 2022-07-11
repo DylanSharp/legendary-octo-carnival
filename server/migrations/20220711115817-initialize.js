@@ -18,13 +18,6 @@ module.exports = {
                     type: "TIMESTAMP",
                     defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
                     allowNull: false,
-                },
-                updatedAt: {
-                    type: "TIMESTAMP",
-                    defaultValue: Sequelize.literal(
-                        "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
-                    ),
-                    allowNull: false,
                 }
             }
         );
@@ -35,7 +28,7 @@ module.exports = {
                     allowNull: false,
                     primaryKey: true
                 },
-                user_id: {
+                userId: {
                     type: Sequelize.UUID,
                     allowNull: false,
                     references: {
@@ -47,12 +40,12 @@ module.exports = {
                     type: Sequelize.STRING(440),
                     allowNull: false
                 },
-                is_reply: {
+                isReply: {
                     type: Sequelize.BOOLEAN(),
                     defaultValue: false,
                     allowNull: false
                 },
-                parent_comment_id: {
+                parentCommentId: {
                     type: Sequelize.UUID,
                     allowNull: true,
                     references: {
@@ -64,13 +57,6 @@ module.exports = {
                     type: "TIMESTAMP",
                     defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
                     allowNull: false,
-                },
-                updatedAt: {
-                    type: "TIMESTAMP",
-                    defaultValue: Sequelize.literal(
-                        "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
-                    ),
-                    allowNull: false,
                 }
             }
         );
@@ -81,7 +67,7 @@ module.exports = {
                 allowNull: false,
                 primaryKey: true
             },
-            comment_id: {
+            commentId: {
                 type: Sequelize.UUID,
                 allowNull: false,
                 references: {
@@ -92,13 +78,6 @@ module.exports = {
             createdAt: {
                 type: "TIMESTAMP",
                 defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-                allowNull: false,
-            },
-            updatedAt: {
-                type: "TIMESTAMP",
-                defaultValue: Sequelize.literal(
-                    "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
-                ),
                 allowNull: false,
             }
         });
