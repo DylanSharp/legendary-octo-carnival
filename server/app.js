@@ -15,10 +15,10 @@ app.get("/comments", async (req, res) => {
     res.end(JSON.stringify(allComments));
 });
 
-app.post("/upvote/:comment_id", async (req, res) => {
-    const commentId = req.params.comment_id;
+app.post("/upvote/:commentId", async (req, res) => {
+    const commentId = req.params.commentId;
 
-    // Ensure the comment_id is valid.
+    // Ensure the commentId is valid.
     const comment = await Comment.findOne({
         where: {
             id: commentId
@@ -28,7 +28,7 @@ app.post("/upvote/:comment_id", async (req, res) => {
         res.status(400).end('Invalid comment ID');
     } else {
         await Upvote.create({
-            comment_id: commentId
+            commentId: commentId
         })
         res.end(commentId);
     }
@@ -38,17 +38,18 @@ app.post("/upvote/:comment_id", async (req, res) => {
 app.post("/comment", async (req, res) => {
     // Get a random user to assign the comment to.
     const allUsers = await User.findAll();
-    if (!allUsers) {
+    const userCount = await User.count();
+    if (userCount === 0) {
         res.end('No users. Please create at least one user before adding a comment.')
     } else {
-        const randomUserIndex = Math.floor(Math.random() * allUsers.length);
+        const randomUserIndex = Math.floor(Math.random() * userCount);
         const randomUser = allUsers[randomUserIndex];
 
         await Comment.create({
-            user_id: randomUser.id,
+            userId: randomUser.id,
             content: req.body['content'],
         })
-        res.end(randomUserIndex);
+        res.end();
     }
 });
 
