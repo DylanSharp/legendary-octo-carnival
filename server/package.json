@@ -1,0 +1,17 @@
+{
+  "name": "discussion_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "devStart": "nodemon app.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  },
+  "dependencies": {
+    "express": "^4.18.1",
+    "sequelize": "^6.21.2"
+  }
+}
