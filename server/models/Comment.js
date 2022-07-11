@@ -4,7 +4,7 @@ const sequelize = require('../connection')
 module.exports = sequelize.define("comments", {
         id: {
             type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
+            defaultValue: Sequelize.literal("(UUID())"),
             allowNull: false,
             primaryKey: true
         },

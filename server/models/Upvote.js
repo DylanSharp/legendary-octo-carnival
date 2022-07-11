@@ -1,10 +1,11 @@
 const {DataTypes, Sequelize} = require('sequelize');
 const sequelize = require('../connection');
 
-module.exports = sequelize.define("upvotes", {
+module.exports = sequelize.define("upvotes",
+    {
         id: {
             type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
+            defaultValue: Sequelize.literal("(UUID())"),
             allowNull: false,
             primaryKey: true
         },
