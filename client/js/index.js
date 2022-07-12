@@ -1,21 +1,3 @@
-const getLatestComments = async () => {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://localhost/comment_data');
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-        const commentData = xhr.response;
-        renderComments(commentData);
-    }
-    await xhr.send();
-}
-
-const addUpvote = (commentId) => {
-    alert(commentId);
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost/upvote/' + commentId);
-    xhr.send();
-}
-
 /**
  * Creates and returns a comment element.
  *
@@ -50,7 +32,7 @@ const createCommentElement = (commentData) => {
 
     // Add event listeners
     const upvoteButton = commentElement.querySelector('.comment__upvote-button');
-    upvoteButton.addEventListener("click", addUpvote.bind(this, commentData.id));
+    upvoteButton.addEventListener("click", API.addUpvote.bind(this, commentData.id));
 
     return commentElement;
 }
@@ -64,7 +46,25 @@ const renderComments = (commentData) => {
 }
 
 const loadComments = async () => {
-    await getLatestComments();
+    const commentData = await API.getLatestComments();
+    renderComments(commentData);
 };
 
-loadComments()
+const addNewComment = async () => {
+    const newCommentInput = document.querySelector('.discussion__new-comment-input');
+    // Disable input while posting.
+    newCommentInput.disabled = true;
+    const newCommentData = await API.addComment(newCommentInput.value)
+    // Todo: Check that post was successful then clear input field.
+    newCommentInput.value = "";
+    newCommentInput.disabled = false;
+
+    const newCommentElement = createCommentElement(newCommentData)
+    const layout = document.querySelector('.discussion__comment-list');
+    layout.prepend(newCommentElement);
+
+}
+const newCommentButton = document.querySelector('.discussion__new-comment-button');
+newCommentButton.addEventListener("click", addNewComment);
+
+loadComments();
