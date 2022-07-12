@@ -1,19 +1,30 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import '../discussion.css';
 import Comment from "./Comment";
+import API from "../api";
 
 
-const CommentList = props => {
+const CommentList = () => {
+    const [comments, setComments] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            console.log('Fetching comments...')
+            const comments = await API.getLatestComments();
+            console.log(comments);
+            setComments(comments);
+        })()
+    }, [])
 
     return (
         <section className="discussion__comment-list">
-            <Comment
-                username={'Dylan Sharp'}
-                createdAt={new Date()}
-                content={'Content Content Content Content '}
-                upvoteCount={3}
-            />
+            {comments.map(comment => {
+                return <Comment
+                    key={comment.id}
+                    comment={comment}
+                />
+            })}
         </section>
     )
 };

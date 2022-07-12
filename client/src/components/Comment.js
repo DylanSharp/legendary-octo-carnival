@@ -3,7 +3,7 @@ import '../discussion.css';
 import {timeSince} from "../helpers";
 
 const Comment = props => {
-    const avatarUrl = `https://avatars.dicebear.com/v2/avataaars/${props.userId}.svg`;
+    const avatarUrl = `https://avatars.dicebear.com/v2/avataaars/${props.comment.userId}.svg`;
     return (
         <div className="comment">
             <img src={avatarUrl}
@@ -11,12 +11,12 @@ const Comment = props => {
                  className="comment__avatar"></img>
             <div className="comment__main">
                 <div className="comment__comment-meta">
-                    <div className="comment__author-name">{props.username}</div>
+                    <div className="comment__author-name">{props.comment.username}</div>
                     <span className="comment__meta-seperator">·</span>
-                    <div className="comment__time-since-published">{timeSince(props.createdAt)}</div>
+                    <div className="comment__time-since-published">{timeSince(props.comment.createdAt)}</div>
                 </div>
                 <div className="comment__body">
-                    {props.content}
+                    {props.comment.content}
                 </div>
                 <div className="comment__actions">
                     <button className="comment__upvote-button">
@@ -25,7 +25,7 @@ const Comment = props => {
                         Upvote
                     </button>
                     <div className="comment__upvote-count">
-                        {props.upvoteCount}
+                        {props.comment.upvoteCount}
                     </div>
                     <button className="comment__reply-button">Reply</button>
                 </div>

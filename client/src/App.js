@@ -1,6 +1,7 @@
 import CommentList from "./components/CommentList";
 
 function App() {
+
     return (
         <div className="discussion">
             <header className="discussion__header">
