@@ -49,9 +49,11 @@ app.post("/upvote/:commentId", async (req, res) => {
 });
 
 app.post("/comment", async (req, res) => {
+    console.log('req.body', req.body);
     // Get a random user to assign the comment to.
     const userCount = await User.count();
     if (userCount === 0) {
+        res.status(400);
         res.end('No users. Please create at least one user before adding a comment.')
     } else {
         const allUsers = await User.findAll();
@@ -59,14 +61,27 @@ app.post("/comment", async (req, res) => {
         const randomUserIndex = Math.floor(Math.random() * userCount);
         const randomUser = allUsers[randomUserIndex];
 
-        await Comment.create({
+        const newComment = await Comment.create({
             userId: randomUser.id,
             content: req.body['content'],
-        })
-        res.end();
+        });
+
+        // Fetch new comment again with metadata.
+        // Because UUID is defined with a literal, Sequelize doesn't return the new object from the create() method.
+        // This is why the new comment is fetched in such a hacky way. Not really a viable solution.
+
+        const [results, metadata] = await sequelize.query(
+            `SELECT comments.*, users.username
+             FROM comments
+                      JOIN users ON comments.userId = users.id
+             WHERE comments.userId = '${randomUser.id}'
+               AND comments.content = '${req.body['content']}'`
+        );
+        const newCommentData = results[0];
+        res.end(JSON.stringify(newCommentData));
     }
 });
 
-app.listen(80, () => {
+app.listen(8080, () => {
     console.log("Listening...");
 });
