@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/discussion.css';
+import upvoteIcon from '../assets/icons/upvote.svg';
 
 const timeSince = (dateString) => {
     const date = new Date(dateString)
@@ -61,7 +62,7 @@ const Comment = props => {
                 </div>
                 <div className="comment__actions">
                     <button className="comment__upvote-button">
-                        <img src="./assets/icons/upvote.svg" alt="Upvote arrow icon"
+                        <img src={upvoteIcon} alt="Upvote arrow icon"
                              className="comment__upvote-arrow-icon"></img>
                         Upvote
                     </button>
