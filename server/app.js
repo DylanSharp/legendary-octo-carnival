@@ -72,7 +72,6 @@ app.post("/comment", async (req, res) => {
             content: req.body['content'],
         });
 
-
         // Fetch new comment again with metadata.
         // Because UUID is defined with a literal, Sequelize doesn't return the new object from the create() method.
         // This is why the new comment is fetched in such a hacky way. Not really a viable solution.

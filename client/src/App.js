@@ -2,7 +2,7 @@ import CommentList from "./components/CommentList";
 import InputHeader from "./components/InputHeader";
 import {useEffect, useState} from "react";
 import API from "./helpers/api";
-import commentList from "./components/CommentList";
+import './styles/global.css'
 
 const App = () => {
     const [comments, setComments] = useState([])
