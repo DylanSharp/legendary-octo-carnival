@@ -19,6 +19,16 @@ app.get("/comments", async (req, res) => {
     res.end(JSON.stringify(allComments));
 });
 
+app.get("/comment_data", async (req, res) => {
+    // Get all comments and some associated user meta data.
+    const [results, metadata] = await sequelize.query(
+        "SELECT comments.*, users.username FROM comments JOIN users ON comments.userId = users.id"
+    );
+
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(results));
+});
+
 app.post("/upvote/:commentId", async (req, res) => {
     const commentId = req.params.commentId;
 
