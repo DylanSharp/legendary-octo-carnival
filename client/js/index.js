@@ -1,3 +1,21 @@
+const getLatestComments = async () => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://localhost/comment_data');
+    xhr.responseType = 'json';
+    xhr.onload = () => {
+        const commentData = xhr.response;
+        renderComments(commentData);
+    }
+    await xhr.send();
+}
+
+const addUpvote = (commentId) => {
+    alert(commentId);
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://localhost/upvote/' + commentId);
+    xhr.send();
+}
+
 /**
  * Creates and returns a comment element.
  *
@@ -21,14 +39,18 @@ const createCommentElement = (commentData) => {
                     ${commentData.content}
                 </div>
                 <div class="comment__actions">
-                    <button class="comment__action-button">
+                    <button class="comment__upvote-button">
                         <img src="./assets/icons/upvote.svg" alt="Upvote arrow icon"
                              class="comment__upvote-arrow-icon">
                         Upvote
                     </button>
-                    <button class="comment__action-button">Reply</button>
+                    <button class="comment__reply-button">Reply</button>
                 </div>
             </div>`;
+
+    // Add event listeners
+    const upvoteButton = commentElement.querySelector('.comment__upvote-button');
+    upvoteButton.addEventListener("click", addUpvote.bind(this, commentData.id));
 
     return commentElement;
 }
@@ -41,15 +63,8 @@ const renderComments = (commentData) => {
     }
 }
 
-const getLatestComments = () => {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://localhost/comment_data');
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-        const commentData = xhr.response;
-        renderComments(commentData);
-    }
-    xhr.send();
-}
+const loadComments = async () => {
+    await getLatestComments();
+};
 
-getLatestComments();
+loadComments()
