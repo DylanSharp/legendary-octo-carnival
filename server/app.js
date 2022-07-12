@@ -36,18 +36,39 @@ app.get("/comments", async (req, res) => {
 
 app.get("/comment_data", async (req, res) => {
     // Get all comments and some associated user meta data.
-    const [results, metadata] = await sequelize.query(
+    const [topLevelComments] = await sequelize.query(
         `SELECT c.*,
                 u.username,
                 COUNT(uv.commentId) as upvoteCount
          FROM comments c
                   JOIN users u on c.userId = u.id
                   LEFT JOIN upvotes uv ON c.id = uv.commentId
+         WHERE c.parentCommentId IS NULL
+         GROUP BY c.id;`
+    );
+    const [replies] = await sequelize.query(
+        `SELECT c.*,
+                u.username,
+                COUNT(uv.commentId) as upvoteCount
+         FROM comments c
+                  JOIN users u on c.userId = u.id
+                  LEFT JOIN upvotes uv ON c.id = uv.commentId
+         WHERE c.parentCommentId IS NOT NULL
          GROUP BY c.id;`
     );
 
+    replies.forEach(reply => {
+        topLevelComments.forEach(comment => {
+            if (reply.parentCommentId === comment.id) {
+                if (!comment.replies) comment.replies = [];
+                comment.replies.push(reply);
+            }
+        })
+    })
+
+
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(results));
+    res.end(JSON.stringify(topLevelComments));
 });
 
 app.post("/upvote/:commentId", async (req, res) => {
