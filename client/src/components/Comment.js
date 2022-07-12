@@ -81,7 +81,7 @@ const Comment = props => {
                     <div className="comment__upvote-count">
                         {props.upvoteCount}
                     </div>
-                    <button className="comment__reply-button">Reply</button>
+                    {props.isReply ? '' : <button className="comment__reply-button">Reply</button>}
                 </div>
             </div>
         </div>
