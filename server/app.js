@@ -22,7 +22,9 @@ app.get("/comments", async (req, res) => {
 app.get("/comment_data", async (req, res) => {
     // Get all comments and some associated user meta data.
     const [results, metadata] = await sequelize.query(
-        "SELECT comments.*, users.username FROM comments JOIN users ON comments.userId = users.id"
+        `SELECT comments.*, users.username
+         FROM comments
+                  JOIN users ON comments.userId = users.id`
     );
 
     res.setHeader('Content-Type', 'application/json');
@@ -82,6 +84,6 @@ app.post("/comment", async (req, res) => {
     }
 });
 
-app.listen(8080, () => {
+app.listen(80, () => {
     console.log("Listening...");
 });
