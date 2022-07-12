@@ -1,5 +1,5 @@
 import CommentList from "./components/CommentList";
-import InputHeader from "./components/InputHeader";
+import NewComment from "./components/NewComment";
 import {useEffect, useState} from "react";
 import API from "./helpers/api";
 import socket from "./connections";
@@ -38,7 +38,10 @@ const App = () => {
 
     return (
         <div className="discussion">
-            <InputHeader appendNewComment={appendNewComment}/>
+            <header className="discussion__header">
+                <h1>Discussion</h1>
+                <NewComment appendNewComment={appendNewComment}/>
+            </header>
             <CommentList comments={comments} incrementUpvote={incrementUpvote}/>
         </div>
     );

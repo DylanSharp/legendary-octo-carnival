@@ -13,5 +13,6 @@ COPY . .
 # Our app is running on localhost port 80
 # When running in the container this will be the same so we need to expose port 80 of the container.
 EXPOSE 80
+EXPOSE 8080
 
 CMD ["node", "app.js"]

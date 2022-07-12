@@ -1,5 +1,5 @@
 const API = (() => {
-    const baseUrl = 'http://localhost';
+    const baseUrl = 'http://44.205.18.18';
     return {
         getLatestComments: async () => {
             const res = await fetch(baseUrl + '/comment_data')

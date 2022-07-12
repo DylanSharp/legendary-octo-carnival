@@ -16,7 +16,7 @@ const CommentList = (props) => {
     }
 
     const generateComments = () => {
-        return props.comments.map(comment => {
+        return sortCommentData(props.comments).map(comment => {
             let comments = [];
             comments.push(
                 <Comment
@@ -28,16 +28,17 @@ const CommentList = (props) => {
                 />)
 
             if (!!comment.replies) {
-                comment.replies.forEach(reply => {
-                    comments.push(
-                        <Comment
-                            key={reply.id}
-                            isReply={true}
-                            comment={reply}
-                            upvoteCount={reply.upvoteCount}
-                            incrementUpvote={reply.incrementUpvote}
-                        />)
-                })
+                sortCommentData(comment.replies)
+                    .forEach(reply => {
+                        comments.push(
+                            <Comment
+                                key={reply.id}
+                                isReply={true}
+                                comment={reply}
+                                upvoteCount={reply.upvoteCount}
+                                incrementUpvote={reply.incrementUpvote}
+                            />)
+                    })
 
             }
 

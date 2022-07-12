@@ -1,8 +1,8 @@
 import {useState} from "react";
 import API from "../helpers/api";
 
-const InputHeader = (props) => {
-    const [content, setContent] = useState([]);
+const NewComment = (props) => {
+    const [content, setContent] = useState('');
     const [loading, setLoading] = useState(false);
 
     const contentChangeHandler = (event) => {
@@ -22,8 +22,6 @@ const InputHeader = (props) => {
     };
 
     return (
-        <header className="discussion__header">
-            <h1>Discussion</h1>
             <form className="discussion__new-comment-panel" onSubmit={submitHandler}>
                 <img src="https://avatars.dicebear.com/v2/avataaars/7e44f46752b1e128513221184161.svg"
                      alt="Current User Avatar Image"
@@ -40,7 +38,6 @@ const InputHeader = (props) => {
                     disabled={loading}>Comment
                 </button>
             </form>
-        </header>
     );
 }
-export default InputHeader;
+export default NewComment;

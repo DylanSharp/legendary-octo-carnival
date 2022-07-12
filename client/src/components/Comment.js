@@ -3,6 +3,7 @@ import '../styles/discussion.css';
 import upvoteIcon from '../assets/icons/upvote.svg';
 import API from "../helpers/api";
 import socket from "../connections";
+import NewComment from "./NewComment";
 
 const timeSince = (dateString) => {
     const date = new Date(dateString)
@@ -48,6 +49,7 @@ const timeSince = (dateString) => {
 
 const Comment = props => {
     const [loading, setLoading] = useState(false);
+    const [showReplyInput, setShowReplyInput] = useState(false);
 
     const handleUpvote = async () => {
         await setLoading(true);
@@ -57,33 +59,43 @@ const Comment = props => {
         setLoading(false);
     }
 
+    const showReplyInputHandler = () => {
+        setShowReplyInput(true);
+    }
+
     return (
-        <div className={`comment ${props.isReply ? 'comment--reply' : ''}`}>
-            <img src={`https://avatars.dicebear.com/v2/avataaars/${props.comment.userId}.svg`}
-                 alt="Current User Avatar Image"
-                 className="comment__avatar"></img>
-            <div className="comment__main">
-                <div className="comment__comment-meta">
-                    <div className="comment__author-name">{props.comment.username}</div>
-                    <span className="comment__meta-seperator">·</span>
-                    <div className="comment__time-since-published">{timeSince(props.comment.createdAt)}</div>
-                </div>
-                <div className="comment__body">
-                    {props.comment.content}
-                </div>
-                <div className="comment__actions">
-                    <button className={`comment__upvote-button ${loading ? 'comment__actions--disabled' : ''}`}
-                            onClick={handleUpvote}>
-                        <img src={upvoteIcon} alt="Upvote arrow icon"
-                             className="comment__upvote-arrow-icon"></img>
-                        Upvote
-                    </button>
-                    <div className="comment__upvote-count">
-                        {props.upvoteCount}
+        <div>
+            <div className={`comment ${props.isReply ? 'comment--reply' : ''}`}>
+                <img src={`https://avatars.dicebear.com/v2/avataaars/${props.comment.userId}.svg`}
+                     alt="Current User Avatar Image"
+                     className="comment__avatar"></img>
+                <div className="comment__main">
+                    <div className="comment__comment-meta">
+                        <div className="comment__author-name">{props.comment.username}</div>
+                        <span className="comment__meta-seperator">·</span>
+                        <div className="comment__time-since-published">{timeSince(props.comment.createdAt)}</div>
                     </div>
-                    {props.isReply ? '' : <button className="comment__reply-button">Reply</button>}
+                    <div className="comment__body">
+                        {props.comment.content}
+                    </div>
+                    <div className="comment__actions">
+                        <button className={`comment__upvote-button ${loading ? 'comment__actions--disabled' : ''}`}
+                                onClick={handleUpvote}>
+                            <img src={upvoteIcon} alt="Upvote arrow icon"
+                                 className="comment__upvote-arrow-icon"></img>
+                            Upvote
+                        </button>
+                        <div className="comment__upvote-count">
+                            {props.upvoteCount}
+                        </div>
+                        {props.isReply ? '' :
+                            <button className="comment__reply-button"
+                                    onClick={showReplyInputHandler}>Reply</button>
+                        }
+                    </div>
                 </div>
             </div>
+            {!props.isReply && showReplyInput ? <NewComment/> : ""}
         </div>
     );
 };
