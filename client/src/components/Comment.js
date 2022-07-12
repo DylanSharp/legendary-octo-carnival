@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import '../styles/discussion.css';
 import upvoteIcon from '../assets/icons/upvote.svg';
 import API from "../helpers/api";
