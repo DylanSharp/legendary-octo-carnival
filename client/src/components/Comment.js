@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/discussion.css';
-import {timeSince} from "../helpers";
+import {timeSince} from "../helpers/helpers";
 
 const Comment = props => {
     const avatarUrl = `https://avatars.dicebear.com/v2/avataaars/${props.comment.userId}.svg`;

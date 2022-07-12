@@ -1,5 +1,5 @@
 import {useState} from "react";
-import API from "../api";
+import API from "../helpers/api";
 
 const InputHeader = (props) => {
     const [content, setContent] = useState([]);

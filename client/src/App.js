@@ -1,7 +1,7 @@
 import CommentList from "./components/CommentList";
 import InputHeader from "./components/InputHeader";
 import {useEffect, useState} from "react";
-import API from "./api";
+import API from "./helpers/api";
 import commentList from "./components/CommentList";
 
 const App = () => {
