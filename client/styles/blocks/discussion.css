@@ -92,6 +92,11 @@
     filter: invert(33%) sepia(11%) saturate(1658%) hue-rotate(187deg) brightness(96%) contrast(86%);
 }
 
+.comment__actions {
+    display: flex;
+    align-items: center;
+}
+
 .comment__actions button {
     background-color: transparent;
     border: none;
@@ -100,7 +105,18 @@
     padding: 5px 8px;
 }
 
+button.comment__upvote-button.comment__actions--disabled {
+    background-color: #e0e0e0;
+    color: #c9d3ee;
+}
+
 .comment__actions button:hover {
     background-color: rgba(84, 94, 126, 0.16);
+}
+
+.comment__upvote-count {
+    color: #4b587c;
+    font-size: 14px;
+    margin: 0 5px;
 }
 

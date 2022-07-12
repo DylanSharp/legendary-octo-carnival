@@ -1,3 +1,11 @@
+const addNewUpvote = async (commentId, upvoteButton) => {
+    upvoteButton.disabled = true;
+    upvoteButton.classList.add('comment__actions--disabled')
+    await API.addUpvote(commentId);
+    upvoteButton.classList.remove('comment__actions--disabled')
+    upvoteButton.disabled = false;
+}
+
 /**
  * Creates and returns a comment element.
  *
@@ -26,13 +34,16 @@ const createCommentElement = (commentData) => {
                              class="comment__upvote-arrow-icon">
                         Upvote
                     </button>
+                    <div class="comment__upvote-count">
+                        ${commentData.upvoteCount}
+                    </div>
                     <button class="comment__reply-button">Reply</button>
                 </div>
             </div>`;
 
     // Add event listeners
     const upvoteButton = commentElement.querySelector('.comment__upvote-button');
-    upvoteButton.addEventListener("click", API.addUpvote.bind(this, commentData.id));
+    upvoteButton.addEventListener("click", addNewUpvote.bind(this, commentData.id, upvoteButton));
 
     return commentElement;
 }
