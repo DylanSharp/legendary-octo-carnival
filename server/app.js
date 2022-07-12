@@ -1,6 +1,7 @@
 const express = require("express");
 const sequelize = require('./connection')
 const cors = require('cors')
+const {WebSocketServer, WebSocket} = require('ws')
 
 const Upvote = require('./models/Upvote')
 const Comment = require('./models/Comment')
@@ -9,6 +10,20 @@ const User = require('./models/User')
 require('./connection');
 
 const app = express();
+app.use(express.json());
+
+const wss = new WebSocketServer({port: 8080});
+
+wss.on('connection', function connection(ws) {
+    ws.on('message', function message(data, isBinary) {
+        wss.clients.forEach(function each(client) {
+            if (client !== ws && client.readyState === WebSocket.OPEN) {
+                client.send(data, {binary: isBinary});
+            }
+        });
+    });
+});
+
 app.use(express.json());
 app.use(cors())
 
