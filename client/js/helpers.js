@@ -42,7 +42,7 @@ function timeSince(dateString) {
     if (interval > 1) {
         return sanitize('minute', Math.floor(interval));
     }
-    return sanitize('second', Math.floor(interval));
+    return 'A moment ago'
 }
 
 
