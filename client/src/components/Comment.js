@@ -58,7 +58,7 @@ const Comment = props => {
     }
 
     return (
-        <div className="comment">
+        <div className={`comment ${props.isReply ? 'comment--reply' : ''}`}>
             <img src={`https://avatars.dicebear.com/v2/avataaars/${props.comment.userId}.svg`}
                  alt="Current User Avatar Image"
                  className="comment__avatar"></img>

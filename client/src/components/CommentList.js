@@ -15,18 +15,41 @@ const CommentList = (props) => {
         })
     }
 
+    const generateComments = () => {
+        return props.comments.map(comment => {
+            let comments = [];
+            comments.push(
+                <Comment
+                    key={comment.id}
+                    isReply={false}
+                    comment={comment}
+                    upvoteCount={comment.upvoteCount}
+                    incrementUpvote={props.incrementUpvote}
+                />)
+
+            if (!!comment.replies) {
+                comment.replies.forEach(reply => {
+                    comments.push(
+                        <Comment
+                            key={reply.id}
+                            isReply={true}
+                            comment={reply}
+                            upvoteCount={reply.upvoteCount}
+                            incrementUpvote={reply.incrementUpvote}
+                        />)
+                })
+
+            }
+
+            return (<div key={comment.id}>{comments}</div>)
+        })
+
+    }
+
+
     return (
         <section className="discussion__comment-list">
-            {props.comments ? sortCommentData(props.comments).map(comment => {
-                return (
-                    <Comment
-                        key={comment.id}
-                        comment={comment}
-                        upvoteCount={comment.upvoteCount}
-                        incrementUpvote={props.incrementUpvote}
-                    />
-                )
-            }) : null}
+            {generateComments()}
         </section>
     )
 };
