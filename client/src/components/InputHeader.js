@@ -12,11 +12,11 @@ const InputHeader = (props) => {
     const submitHandler = async (event) => {
         event.preventDefault();
         if (content.length > 1) {
+            await setLoading(true);
             await API.addComment(content).then((newComment) => {
                 props.appendNewComment(newComment);
             });
             await setContent("");
-            await setLoading(true);
             setLoading(false);
         }
     };
@@ -34,9 +34,10 @@ const InputHeader = (props) => {
                        onChange={contentChangeHandler}
                        disabled={loading}
                        value={content}></input>
-                <button className="discussion__new-comment-button"
-                        type='submit'
-                        disabled={loading}>Comment
+                <button
+                    className={`discussion__new-comment-button ${loading ? 'discussion__new-comment-button--disabled' : ''}`}
+                    type='submit'
+                    disabled={loading}>Comment
                 </button>
             </form>
         </header>

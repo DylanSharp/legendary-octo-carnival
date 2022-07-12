@@ -46,6 +46,11 @@
     height: 36px;
 }
 
+.discussion__new-comment-button.discussion__new-comment-button--disabled {
+    color: grey;
+    background-color: #c59fff;
+}
+
 .discussion__comment-list {
     margin-top: 26px;
 }
