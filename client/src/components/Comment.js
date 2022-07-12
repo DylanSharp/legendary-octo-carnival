@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import '../styles/discussion.css';
 import upvoteIcon from '../assets/icons/upvote.svg';
+import API from "../helpers/api";
 
 const timeSince = (dateString) => {
     const date = new Date(dateString)
@@ -45,10 +46,27 @@ const timeSince = (dateString) => {
 }
 
 const Comment = props => {
-    const avatarUrl = `https://avatars.dicebear.com/v2/avataaars/${props.comment.userId}.svg`;
+    const [loading, setLoading] = useState(false);
+    const [upvoteCount, setUpvoteCount] = useState();
+
+
+    useEffect(() => {
+        setUpvoteCount(props.comment.upvoteCount)
+    }, [])
+
+    const handleUpvote = async () => {
+        await setLoading(true);
+        await API.addUpvote(props.comment.id);
+        await setUpvoteCount(prevState => {
+            return prevState + 1
+        })
+        setLoading(false);
+
+    }
+
     return (
         <div className="comment">
-            <img src={avatarUrl}
+            <img src={`https://avatars.dicebear.com/v2/avataaars/${props.comment.userId}.svg`}
                  alt="Current User Avatar Image"
                  className="comment__avatar"></img>
             <div className="comment__main">
@@ -61,13 +79,14 @@ const Comment = props => {
                     {props.comment.content}
                 </div>
                 <div className="comment__actions">
-                    <button className="comment__upvote-button">
+                    <button className={`comment__upvote-button ${loading ? 'comment__actions--disabled' : ''}`}
+                            onClick={handleUpvote}>
                         <img src={upvoteIcon} alt="Upvote arrow icon"
                              className="comment__upvote-arrow-icon"></img>
                         Upvote
                     </button>
                     <div className="comment__upvote-count">
-                        {props.comment.upvoteCount}
+                        {upvoteCount}
                     </div>
                     <button className="comment__reply-button">Reply</button>
                 </div>
