@@ -1,4 +1,4 @@
-const {DataTypes, Sequelize} = require('sequelize');
+const {Sequelize} = require('sequelize');
 const sequelize = require('../connection')
 
 module.exports = sequelize.define("users",
