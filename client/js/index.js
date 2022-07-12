@@ -50,20 +50,30 @@ const loadComments = async () => {
     renderComments(commentData);
 };
 
+
 const addNewComment = async () => {
     const newCommentInput = document.querySelector('.discussion__new-comment-input');
+    const newCommentButton = document.querySelector('.discussion__new-comment-button');
+
     // Disable input while posting.
     newCommentInput.disabled = true;
+    newCommentButton.disabled = true;
     const newCommentData = await API.addComment(newCommentInput.value)
     // Todo: Check that post was successful then clear input field.
     newCommentInput.value = "";
     newCommentInput.disabled = false;
+    newCommentButton.disabled = false;
 
     const newCommentElement = createCommentElement(newCommentData)
     const layout = document.querySelector('.discussion__comment-list');
     layout.prepend(newCommentElement);
 
 }
+
+
+/*
+Add event listeners.
+ */
 const newCommentButton = document.querySelector('.discussion__new-comment-button');
 newCommentButton.addEventListener("click", addNewComment);
 
