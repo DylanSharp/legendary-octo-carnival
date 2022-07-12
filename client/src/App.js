@@ -27,16 +27,3 @@ const App = () => {
 }
 
 export default App;
-
-
-// useEffect(() => {
-//     (async () => {
-//         const comments = await API.getLatestComments();
-//         setComments(comments);
-//     })()
-// }, [])
-//
-// const addNewComment = async (content) => {
-//     const newComment = await API.addComment(content);
-//     const updatedCommentList = comments.push(newComment)
-// };

@@ -1,4 +1,4 @@
-import '../discussion.css';
+import '../styles/discussion.css';
 import Comment from "./Comment";
 
 const CommentList = (props) => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import '../discussion.css';
+import '../styles/discussion.css';
 import {timeSince} from "../helpers";
 
 const Comment = props => {
