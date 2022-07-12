@@ -1,4 +1,7 @@
 const express = require("express");
+const sequelize = require('./connection')
+const cors = require('cors')
+
 const Upvote = require('./models/Upvote')
 const Comment = require('./models/Comment')
 const User = require('./models/User')
@@ -7,11 +10,12 @@ require('./connection');
 
 const app = express();
 app.use(express.json());
+app.use(cors())
 
 app.get("/comments", async (req, res) => {
-    res.setHeader('Content-Type', 'application/json');
     const allComments = await Comment.findAll()
 
+    res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(allComments));
 });
 
@@ -32,7 +36,6 @@ app.post("/upvote/:commentId", async (req, res) => {
         })
         res.end(commentId);
     }
-
 });
 
 app.post("/comment", async (req, res) => {
