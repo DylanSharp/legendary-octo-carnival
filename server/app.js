@@ -22,9 +22,13 @@ app.get("/comments", async (req, res) => {
 app.get("/comment_data", async (req, res) => {
     // Get all comments and some associated user meta data.
     const [results, metadata] = await sequelize.query(
-        `SELECT comments.*, users.username
-         FROM comments
-                  JOIN users ON comments.userId = users.id`
+        `SELECT c.*,
+                u.username,
+                COUNT(uv.commentId) as upvoteCount
+         FROM comments c
+                  JOIN users u on c.userId = u.id
+                  LEFT JOIN upvotes uv ON c.id = uv.commentId
+         GROUP BY c.id;`
     );
 
     res.setHeader('Content-Type', 'application/json');
@@ -73,10 +77,13 @@ app.post("/comment", async (req, res) => {
         // This is why the new comment is fetched in such a hacky way. Not really a viable solution.
 
         const [results, metadata] = await sequelize.query(
-            `SELECT comments.*, users.username
-             FROM comments
-                      JOIN users ON comments.userId = users.id
-             WHERE comments.userId = '${randomUser.id}'
+            `SELECT c.*,
+                    u.username,
+                    COUNT(uv.commentId) AS upvoteCount
+             FROM comments c
+                      JOIN users u ON c.userId = u.id
+                      LEFT JOIN upvotes uv ON c.id = uv.commentId
+             GROUP BY c.id WHERE comments.userId = '${randomUser.id}'
                AND comments.content = '${req.body['content']}'`
         );
         const newCommentData = results[0];
