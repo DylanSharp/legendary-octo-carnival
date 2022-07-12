@@ -37,11 +37,12 @@ app.post("/upvote/:commentId", async (req, res) => {
 
 app.post("/comment", async (req, res) => {
     // Get a random user to assign the comment to.
-    const allUsers = await User.findAll();
     const userCount = await User.count();
     if (userCount === 0) {
         res.end('No users. Please create at least one user before adding a comment.')
     } else {
+        const allUsers = await User.findAll();
+        // Generate a random number between 0 and
         const randomUserIndex = Math.floor(Math.random() * userCount);
         const randomUser = allUsers[randomUserIndex];
 
@@ -53,6 +54,6 @@ app.post("/comment", async (req, res) => {
     }
 });
 
-app.listen(3000, () => {
+app.listen(80, () => {
     console.log("Listening...");
 });
