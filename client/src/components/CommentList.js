@@ -22,6 +22,8 @@ const CommentList = (props) => {
                     <Comment
                         key={comment.id}
                         comment={comment}
+                        upvoteCount={comment.upvoteCount}
+                        incrementUpvote={props.incrementUpvote}
                     />
                 )
             }) : null}

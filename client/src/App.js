@@ -2,16 +2,35 @@ import CommentList from "./components/CommentList";
 import InputHeader from "./components/InputHeader";
 import {useEffect, useState} from "react";
 import API from "./helpers/api";
+import socket from "./connections";
 
 const App = () => {
     const [comments, setComments] = useState([])
 
-    useEffect(() => {
-        API.getLatestComments().then((result) => {
-            setComments(result);
-        })
-    }, [])
+    const incrementUpvote = (commentId) => {
+        setComments(prevState => {
+            return prevState.map(comment => {
+                if (comment.id === commentId) {
+                    comment = {...comment, upvoteCount: comment.upvoteCount + 1}
+                }
+                return comment
+            });
+        });
+    }
 
+    socket.addEventListener('message', (event) => {
+        const data = JSON.parse(event.data);
+        if (data.eventType === 'newUpvote') {
+            incrementUpvote(data.commentId);
+        }
+    })
+
+    useEffect(() => {
+        API.getLatestComments()
+            .then((result) => {
+                setComments(result);
+            })
+    }, [])
 
     const appendNewComment = (newComment) => {
         setComments(prevState => ([newComment, ...prevState]));
@@ -20,7 +39,7 @@ const App = () => {
     return (
         <div className="discussion">
             <InputHeader appendNewComment={appendNewComment}/>
-            <CommentList comments={comments}/>
+            <CommentList comments={comments} incrementUpvote={incrementUpvote}/>
         </div>
     );
 }

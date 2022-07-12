@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import '../styles/discussion.css';
 import upvoteIcon from '../assets/icons/upvote.svg';
 import API from "../helpers/api";
+import socket from "../connections";
 
 const timeSince = (dateString) => {
     const date = new Date(dateString)
@@ -47,21 +48,13 @@ const timeSince = (dateString) => {
 
 const Comment = props => {
     const [loading, setLoading] = useState(false);
-    const [upvoteCount, setUpvoteCount] = useState();
-
-
-    useEffect(() => {
-        setUpvoteCount(props.comment.upvoteCount)
-    }, [])
 
     const handleUpvote = async () => {
         await setLoading(true);
         await API.addUpvote(props.comment.id);
-        await setUpvoteCount(prevState => {
-            return prevState + 1
-        })
+        props.incrementUpvote(props.comment.id);
+        socket.send(JSON.stringify({eventType: 'newUpvote', commentId: props.comment.id}))
         setLoading(false);
-
     }
 
     return (
@@ -86,7 +79,7 @@ const Comment = props => {
                         Upvote
                     </button>
                     <div className="comment__upvote-count">
-                        {upvoteCount}
+                        {props.upvoteCount}
                     </div>
                     <button className="comment__reply-button">Reply</button>
                 </div>
