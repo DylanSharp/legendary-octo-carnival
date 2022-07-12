@@ -3,7 +3,7 @@ const API = (() => {
     return {
         getLatestComments: async () => {
             const res = await fetch(baseUrl + '/comment_data')
-            return await res.json();
+            return res.json();
         },
         addUpvote: (commentId) => {
             return fetch(baseUrl + '/upvote/' + commentId, {

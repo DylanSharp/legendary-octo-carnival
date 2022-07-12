@@ -55,7 +55,6 @@ app.post("/upvote/:commentId", async (req, res) => {
 });
 
 app.post("/comment", async (req, res) => {
-    console.log('req.body', req.body);
     // Get a random user to assign the comment to.
     const userCount = await User.count();
     if (userCount === 0) {
@@ -67,10 +66,12 @@ app.post("/comment", async (req, res) => {
         const randomUserIndex = Math.floor(Math.random() * userCount);
         const randomUser = allUsers[randomUserIndex];
 
-        const newComment = await Comment.create({
+
+        await Comment.create({
             userId: randomUser.id,
             content: req.body['content'],
         });
+
 
         // Fetch new comment again with metadata.
         // Because UUID is defined with a literal, Sequelize doesn't return the new object from the create() method.
@@ -83,8 +84,8 @@ app.post("/comment", async (req, res) => {
              FROM comments c
                       JOIN users u ON c.userId = u.id
                       LEFT JOIN upvotes uv ON c.id = uv.commentId
-             GROUP BY c.id WHERE comments.userId = '${randomUser.id}'
-               AND comments.content = '${req.body['content']}'`
+             WHERE c.userId = '${randomUser.id}'
+               AND c.content = '${req.body['content']}'`
         );
         const newCommentData = results[0];
         res.end(JSON.stringify(newCommentData));
