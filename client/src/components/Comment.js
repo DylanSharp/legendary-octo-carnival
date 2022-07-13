@@ -49,7 +49,7 @@ const timeSince = (dateString) => {
 
 const Comment = props => {
     const [loading, setLoading] = useState(false);
-    const [showReplyBox, setShowReplyBox] = useState(false);
+    const [showReplyForm, setShowReplyForm] = useState(false);
 
     const handleUpvote = async () => {
         await setLoading(true);
@@ -59,8 +59,8 @@ const Comment = props => {
         setLoading(false);
     }
 
-    const toggleReplyBoxHandler = () => {
-        setShowReplyBox(prevState => {
+    const toggleReplyFormHandler = () => {
+        setShowReplyForm(prevState => {
             return !prevState
         });
     }
@@ -71,7 +71,7 @@ const Comment = props => {
     }
 
     const dismissReply = async () => {
-        await setShowReplyBox(false);
+        await setShowReplyForm(false);
     }
 
     return (
@@ -101,17 +101,17 @@ const Comment = props => {
                         </div>
                         {props.isReply ? '' :
                             <button className="comment__reply-button"
-                                    onClick={toggleReplyBoxHandler}>Reply</button>
+                                    onClick={toggleReplyFormHandler}>Reply</button>
                         }
                     </div>
                 </div>
             </div>
-            {!showReplyBox ? "" :
+            {!showReplyForm ? "" :
                 <div className="reply__overlay"
                      onClick={dismissReply}
-                     style={{opacity: 0.3, visibility: showReplyBox ? 'visible' : 'hidden'}}></div>}
+                     style={{opacity: 0.3, visibility: showReplyForm ? 'visible' : 'hidden'}}></div>}
 
-            {!props.isReply && showReplyBox ? <ReplyForm parentCommentId={props.comment.id}
+            {!props.isReply && showReplyForm ? <ReplyForm parentCommentId={props.comment.id}
                                                          appendNewReply={appendNewReply}
                                                          dismissReply={dismissReply}/> : ""}
         </div>
