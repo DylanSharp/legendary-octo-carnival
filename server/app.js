@@ -9,6 +9,7 @@ const User = require('./models/User')
 
 require('./connection');
 
+const PORT = 80;
 const app = express();
 app.use(express.json());
 
@@ -59,8 +60,8 @@ app.get("/comment_data", async (req, res) => {
 
     replies.forEach(reply => {
         topLevelComments.forEach(comment => {
+            if (!comment.replies) comment.replies = [];
             if (reply.parentCommentId === comment.id) {
-                if (!comment.replies) comment.replies = [];
                 comment.replies.push(reply);
             }
         })
@@ -101,17 +102,16 @@ app.post("/comment", async (req, res) => {
         // Generate a random number between 0 and
         const randomUserIndex = Math.floor(Math.random() * userCount);
         const randomUser = allUsers[randomUserIndex];
-
-
         await Comment.create({
             userId: randomUser.id,
             content: req.body['content'],
+            isReply: req.body['isReply'],
+            parentCommentId: req.body['parentCommentId'],
         });
 
         // Fetch new comment again with metadata.
         // Because UUID is defined with a literal, Sequelize doesn't return the new object from the create() method.
         // This is why the new comment is fetched in such a hacky way. Not really a viable solution.
-
         const [results, metadata] = await sequelize.query(
             `SELECT c.*,
                     u.username,
@@ -127,6 +127,6 @@ app.post("/comment", async (req, res) => {
     }
 });
 
-app.listen(80, () => {
-    console.log("Listening...");
+app.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}`);
 });
