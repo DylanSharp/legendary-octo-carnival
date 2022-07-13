@@ -18,17 +18,6 @@ app.use(cors())
 
 const wss = new WebSocketServer({port: WEBSOCKET_PORT});
 
-wss.on('connection', function connection(ws) {
-    ws.on('message', function message(data, isBinary) {
-        wss.clients.forEach(function each(client) {
-            if (client !== ws && client.readyState === WebSocket.OPEN) {
-                client.send(data, {binary: isBinary});
-            }
-        });
-    });
-});
-
-
 app.get("/comments", async (req, res) => {
     const allComments = await Comment.findAll()
 
@@ -76,7 +65,6 @@ app.get("/comment_data", async (req, res) => {
 
 app.post("/upvote/:commentId", async (req, res) => {
     const commentId = req.params.commentId;
-
     // Ensure the commentId is valid.
     const comment = await Comment.findOne({
         where: {
@@ -89,6 +77,12 @@ app.post("/upvote/:commentId", async (req, res) => {
         await Upvote.create({
             commentId: commentId
         })
+        wss.clients.forEach(function each(client) {
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(JSON.stringify({eventType: 'newUpvote', commentId: commentId}));
+            }
+        });
+
         res.end(commentId);
     }
 });
