@@ -9,11 +9,12 @@ const User = require('./models/User')
 
 require('./connection');
 
-const PORT = 80;
+const SERVER_PORT = 80;
+const WEBSOCKET_PORT = 8080;
 const app = express();
 app.use(express.json());
 
-const wss = new WebSocketServer({port: 8080});
+const wss = new WebSocketServer({port: WEBSOCKET_PORT});
 
 wss.on('connection', function connection(ws) {
     ws.on('message', function message(data, isBinary) {
@@ -128,6 +129,6 @@ app.post("/comment", async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}`);
+app.listen(SERVER_PORT, () => {
+    console.log(`Listening on port ${SERVER_PORT}`);
 });
