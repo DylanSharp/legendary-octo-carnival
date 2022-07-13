@@ -12,7 +12,9 @@ require('./connection');
 const SERVER_PORT = 80;
 const WEBSOCKET_PORT = 8080;
 const app = express();
+
 app.use(express.json());
+app.use(cors())
 
 const wss = new WebSocketServer({port: WEBSOCKET_PORT});
 
@@ -26,8 +28,6 @@ wss.on('connection', function connection(ws) {
     });
 });
 
-app.use(express.json());
-app.use(cors())
 
 app.get("/comments", async (req, res) => {
     const allComments = await Comment.findAll()
