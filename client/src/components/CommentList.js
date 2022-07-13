@@ -5,12 +5,8 @@ const CommentList = (props) => {
 
     const sortCommentData = (commentData) => {
         return commentData.sort((a, b) => {
-            if (a.createdAt > b.createdAt) {
-                return -1;
-            }
-            if (a.createdAt < b.createdAt) {
-                return 1;
-            }
+            if (a.createdAt > b.createdAt) return -1;
+            if (a.createdAt < b.createdAt) return 1;
             return 0;
         })
     }
@@ -25,6 +21,7 @@ const CommentList = (props) => {
                     comment={comment}
                     upvoteCount={comment.upvoteCount}
                     incrementUpvote={props.incrementUpvote}
+                    appendNewComment={props.appendNewComment}
                 />)
 
             if (!!comment.replies) {
@@ -39,12 +36,10 @@ const CommentList = (props) => {
                                 incrementUpvote={reply.incrementUpvote}
                             />)
                     })
-
             }
 
             return (<div key={comment.id}>{comments}</div>)
         })
-
     }
 
 

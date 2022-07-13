@@ -3,7 +3,7 @@ import '../styles/discussion.css';
 import upvoteIcon from '../assets/icons/upvote.svg';
 import API from "../helpers/api";
 import socket from "../connections";
-import NewComment from "./NewComment";
+import ReplyForm from "./ReplyForm";
 
 const timeSince = (dateString) => {
     const date = new Date(dateString)
@@ -49,7 +49,7 @@ const timeSince = (dateString) => {
 
 const Comment = props => {
     const [loading, setLoading] = useState(false);
-    const [showReplyInput, setShowReplyInput] = useState(false);
+    const [showReplyBox, setShowReplyBox] = useState(false);
 
     const handleUpvote = async () => {
         await setLoading(true);
@@ -59,12 +59,19 @@ const Comment = props => {
         setLoading(false);
     }
 
-    const showReplyInputHandler = () => {
-        setShowReplyInput(true);
+    const toggleReplyBoxHandler = () => {
+        setShowReplyBox(prevState => {
+            return !prevState
+        });
+    }
+
+    const appendNewReply = (reply) => {
+        props.comment.replies.push(reply);
+        props.appendNewComment(props.comment);
     }
 
     return (
-        <div>
+        <div className='comment__container'>
             <div className={`comment ${props.isReply ? 'comment--reply' : ''}`}>
                 <img src={`https://avatars.dicebear.com/v2/avataaars/${props.comment.userId}.svg`}
                      alt="Current User Avatar Image"
@@ -90,12 +97,13 @@ const Comment = props => {
                         </div>
                         {props.isReply ? '' :
                             <button className="comment__reply-button"
-                                    onClick={showReplyInputHandler}>Reply</button>
+                                    onClick={toggleReplyBoxHandler}>Reply</button>
                         }
                     </div>
                 </div>
             </div>
-            {!props.isReply && showReplyInput ? <NewComment/> : ""}
+            {!props.isReply && showReplyBox ? <ReplyForm parentCommentId={props.comment.id}
+                                                         appendNewReply={appendNewReply}/> : ""}
         </div>
     );
 };

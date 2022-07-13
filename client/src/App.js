@@ -42,7 +42,9 @@ const App = () => {
                 <h1>Discussion</h1>
                 <NewComment appendNewComment={appendNewComment}/>
             </header>
-            <CommentList comments={comments} incrementUpvote={incrementUpvote}/>
+            <CommentList comments={comments}
+                         incrementUpvote={incrementUpvote}
+                         appendNewComment={appendNewComment}/>
         </div>
     );
 }
