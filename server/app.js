@@ -58,6 +58,7 @@ app.get("/comment_data", async (req, res) => {
          GROUP BY c.id;`
     );
 
+    // Nest replies. Ideally this should be doing at the DB level as a JOIN.
     replies.forEach(reply => {
         topLevelComments.forEach(comment => {
             if (!comment.replies) comment.replies = [];
