@@ -33,7 +33,7 @@ const CommentList = (props) => {
                                 isReply={true}
                                 comment={reply}
                                 upvoteCount={reply.upvoteCount}
-                                incrementUpvote={reply.incrementUpvote}
+                                incrementUpvote={props.incrementUpvote}
                             />)
                     })
             }

@@ -13,6 +13,14 @@ const App = () => {
                 if (comment.id === commentId) {
                     comment = {...comment, upvoteCount: comment.upvoteCount + 1}
                 }
+
+                comment.replies = comment.replies.map(reply => {
+                    if (reply.id === commentId) {
+                        reply = {...reply, upvoteCount: reply.upvoteCount + 1}
+                    }
+                    return reply
+                })
+
                 return comment
             });
         });
