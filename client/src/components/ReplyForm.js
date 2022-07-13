@@ -18,8 +18,9 @@ const ReplyForm = props => {
                 .then((newComment) => {
                     props.appendNewReply(newComment);
                 });
-            await setContent("");
-            setLoading(false);
+            await (setContent(""));
+            await setLoading(false);
+            props.dismissReply();
         }
     };
 

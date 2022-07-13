@@ -70,6 +70,10 @@ const Comment = props => {
         props.appendNewComment(props.comment);
     }
 
+    const dismissReply = async () => {
+        await setShowReplyBox(false);
+    }
+
     return (
         <div className='comment__container'>
             <div className={`comment ${props.isReply ? 'comment--reply' : ''}`}>
@@ -102,8 +106,14 @@ const Comment = props => {
                     </div>
                 </div>
             </div>
+            {!showReplyBox ? "" :
+                <div className="reply__overlay"
+                     onClick={dismissReply}
+                     style={{opacity: 0.3, visibility: showReplyBox ? 'visible' : 'hidden'}}></div>}
+
             {!props.isReply && showReplyBox ? <ReplyForm parentCommentId={props.comment.id}
-                                                         appendNewReply={appendNewReply}/> : ""}
+                                                         appendNewReply={appendNewReply}
+                                                         dismissReply={dismissReply}/> : ""}
         </div>
     );
 };
