@@ -155,3 +155,8 @@ button.comment__upvote-button.comment__actions--disabled {
     border-radius: 5px;
     height: 36px;
 }
+
+.reply__submit-button.reply__submit-button--disabled {
+    color: grey;
+    background-color: #c59fff;
+}

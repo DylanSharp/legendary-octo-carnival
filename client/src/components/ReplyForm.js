@@ -3,6 +3,7 @@ import '../styles/discussion.css';
 import API from "../helpers/api";
 
 const ReplyForm = props => {
+    const [loading, setLoading] = useState(false);
     const [content, setContent] = useState('');
 
     const contentChangeHandler = (event) => {
@@ -27,9 +28,11 @@ const ReplyForm = props => {
             <input type="text"
                    className='reply__input'
                    onChange={contentChangeHandler}
-                   value={content}/>
-            <button className='reply__submit-button'
-                    onClick={submitHandler}>Reply
+                   value={content}
+                   disabled={loading}/>
+            <button className={`reply__submit-button ${loading ? 'reply__submit-button--disabled' : ''}`}
+                    onClick={submitHandler}
+                    disabled={loading}>Reply
             </button>
         </form>
     );
